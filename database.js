@@ -1,14 +1,10 @@
 const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "node_db",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
-connection.connect();
 
-connection.query("SELECT * FROM users", (err, rows) => {
-  if (err) throw err;
-  console.log(rows);
-});
+module.exports = connection;
