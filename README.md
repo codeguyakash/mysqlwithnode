@@ -168,4 +168,4 @@ You can further expand this documentation with additional details such as reques
 
 ## For More Info 👇
 
-You can ping me on [https://twitter.com/codeguyakash](@Twitter).
+You can ping me on twitter <a href="https://twitter.com/codeguyakash">@codeguyakash</a>
