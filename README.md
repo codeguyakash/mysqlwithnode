@@ -149,6 +149,14 @@ Response:
 }
 ```
 
+## Live URL
+
+The API is deployed and live at [https://mysqlwithnode.onrender.com/](https://mysqlwithnode.onrender.com/).
+
+---
+
+Feel free to further customize this README as needed for your project.
+
 ## Error Handling
 
 - If a blog with the specified ID is not found, the server responds with a 404 status code and a message indicating "No Blog Found".
@@ -157,3 +165,7 @@ Response:
 ---
 
 You can further expand this documentation with additional details such as request/response headers, query parameters, authentication requirements, and usage examples.
+
+## For More Info 👇
+
+You can ping me on [https://twitter.com/codeguyakash](@Twitter).
