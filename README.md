@@ -1,8 +1,4 @@
-Below is a sample API documentation README for your project:
-
----
-
-# Blog API
+# Blog API with mysql
 
 This API provides endpoints to manage blogs, including creating, reading, updating, and deleting blogs.
 
