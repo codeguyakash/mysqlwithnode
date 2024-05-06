@@ -7,11 +7,18 @@ const connectDB = require("./database");
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
-app.get("/", (_, res) => {
+app.get("/", (req, res) => {
+  const ip =
+    req.headers["x-real-ip"] ||
+    req.headers["cf-connectiong-ip"] ||
+    req.headers["x-forwarded-for"] ||
+    req.socket.remoteAddress ||
+    "";
   res.json({
     message: "Welcome Server is Running",
     success: true,
     statusCode: 200,
+    clientIP: ip,
     date: new Date().toISOString(),
   });
 });
