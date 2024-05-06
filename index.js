@@ -17,19 +17,11 @@ app.get("/", (_, res) => {
 });
 
 connecDB().then((databaseInstance) => {
-  console.log("DB Connected!!");
-  app.get("/ok", async (req, res) => {
-    const result = await databaseInstance.query("select * from blogs");
-    console.log(console.log(result));
-
-    return res.send("OKK");
-  });
-
   // Read all blogs -----------------------------------------
   app.get("/blogs", async (req, res) => {
     try {
       const readQuery = "SELECT * FROM blogs";
-      const [rows, fields] = await databaseInstance.query(readQuery);
+      const [rows] = await databaseInstance.query(readQuery);
       res.status(200).json(rows);
     } catch (err) {
       console.log(err);
@@ -42,11 +34,14 @@ connecDB().then((databaseInstance) => {
     const { id } = req.params;
     try {
       const readQuery = "SELECT * FROM blogs WHERE id = ?";
-      const result = await databaseInstance.query(readQuery, [id]);
-      res.status(200).json(result[0]);
+      const [row] = await databaseInstance.query(readQuery, [id]);
+      if (row.length == 0) {
+        throw new Error("No Blog Found");
+      } else {
+        res.status(200).json(row);
+      }
     } catch (error) {
-      console.log(err);
-      res.status(500).json({ error: "Error Occurred" });
+      res.status(500).json({ message: error.message });
     }
   });
 
@@ -62,7 +57,10 @@ connecDB().then((databaseInstance) => {
         author,
         category,
       ]);
-      res.status(201).json({ message: "Blog Created", result });
+      const insertId = result[0].insertId;
+      res
+        .status(201)
+        .json({ message: "Blog Created", createdBlogId: insertId });
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error Occurred" });
@@ -75,10 +73,14 @@ connecDB().then((databaseInstance) => {
     try {
       const deleteQuery = "DELETE FROM blogs WHERE id = ?";
       const result = await databaseInstance.query(deleteQuery, [id]);
-      res.status(200).json({ message: "Delete Success", result });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "Error Occurred" });
+      const affectedRows = result[0].affectedRows;
+      if (affectedRows) {
+        res.status(200).json({ message: "Delete Success", deletedBlogId: id });
+      } else {
+        throw new Error("No Blog Found");
+      }
+    } catch (error) {
+      res.status(404).json({ message: error.message });
     }
   });
 
@@ -97,9 +99,14 @@ connecDB().then((databaseInstance) => {
         category,
         id,
       ]);
-      res.status(200).json({ message: "Update Success", result });
-    } catch (err) {
-      res.status(500).json({ error: "Error Occurred" });
+      const affectedRows = result[0].affectedRows;
+      if (affectedRows) {
+        res.status(200).json({ message: "Updated Success", updatedBlogId: id });
+      } else {
+        throw new Error("No Blog Found");
+      }
+    } catch (error) {
+      res.status(404).json({ message: error.message });
     }
   });
 });

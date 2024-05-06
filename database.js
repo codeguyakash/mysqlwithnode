@@ -2,7 +2,7 @@ const mysql = require("mysql2/promise");
 
 const connectDB = async () => {
   try {
-    const pool = mysql.createPool({
+    const pool = await mysql.createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
@@ -13,6 +13,7 @@ const connectDB = async () => {
       queueLimit: 0,
       connectTimeout: 10000,
     });
+    console.log("DB Connected!!");
     return pool;
   } catch (error) {
     console.error("Error connecting to the database:", error.message);
