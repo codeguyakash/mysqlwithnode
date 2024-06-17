@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const connectDB = require("./database");
 
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -133,6 +133,6 @@ connectDB()
       error: "Error connecting to the database. Please try again later.",
     });
   });
-app.listen(PORT, () => {
-  console.log(`[Server Running....${PORT}]`);
+app.listen(port, () => {
+  console.log(`[Server Running....${port}]`);
 });
